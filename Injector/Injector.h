@@ -8,6 +8,7 @@
 
 // C++ Standard Library
 #include <string>
+#include <vector>
 
 // Class to manage DLL injection into a remote process
 class Injector
