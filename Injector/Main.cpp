@@ -109,13 +109,17 @@ int main(int, char* argv[])
 
         // Temporary place for argument
         std::string optArg;
-
+        
+        std::vector<DWORD> ProcIDs;
+        int magic_flag = 0;
         // Find and inject via process name
         if (cmdl({ "-n", "--process-name" }))
         {
             optArg = cmdl({ "-n", "--process-name" }).str();
             // Attempt injection via process name
-            ProcID = Injector::Get()->GetProcessIdByName(utf8_to_wstr(toLower(optArg)));
+            //ProcID = Injector::Get()->GetProcessIdByName(utf8_to_wstr(toLower(optArg)));
+            ProcID = Injector::Get()->GetProcessIdsByName(utf8_to_wstr(toLower(optArg)), ProcIDs);
+            magic_flag = 1;
         }
 
         // Find and inject via window name
@@ -142,6 +146,7 @@ int main(int, char* argv[])
         Injector::Get()->GetSeDebugPrivilege();
 
         std::vector<std::wstring> modules;
+        
 
         for (auto it = std::next(cmdl.pos_args().begin()); it != cmdl.pos_args().end(); ++it)
             modules.push_back(utf8_to_wstr(*it));
@@ -161,7 +166,17 @@ int main(int, char* argv[])
                 }
 
                 // Inject module
-                Injector::Get()->InjectLib(ProcID, ModulePath);
+                if(0 == magic_flag)
+                {
+                    Injector::Get()->InjectLib(ProcID, ModulePath);                    
+                }
+                else
+                {
+                    for(auto pid : ProcIds)
+                    {
+                        Injector::Get()->InjectLib(pid, ModulePath);                       
+                    }                    
+                }                
                 // If we get to this point then no exceptions have been thrown so we
                 // assume success.
                 std::tcout << "Successfully injected module!" << std::endl;
@@ -183,7 +198,18 @@ int main(int, char* argv[])
                 }
 
                 // Eject module
-                Injector::Get()->EjectLib(ProcID, ModulePath);
+                if(0 == magic_flag)
+                {
+                    Injector::Get()->EjectLib(ProcID, ModulePath);
+                }
+                else
+                {
+                    for(auto pid : ProcIds)
+                    {
+                        Injector::Get()->EjectLib(pid, ModulePath);                       
+                    }                    
+                }  
+                
                 // If we get to this point then no exceptions have been thrown so we
                 // assume success.
                 std::tcout << "Successfully ejected module!" << std::endl;
