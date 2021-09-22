@@ -172,7 +172,7 @@ int main(int, char* argv[])
                 }
                 else
                 {
-                    for(auto pid : ProcIds)
+                    for(auto pid : ProcIDs)
                     {
                         Injector::Get()->InjectLib(pid, ModulePath);                       
                     }                    
@@ -204,7 +204,7 @@ int main(int, char* argv[])
                 }
                 else
                 {
-                    for(auto pid : ProcIds)
+                    for(auto pid : ProcIDs)
                     {
                         Injector::Get()->EjectLib(pid, ModulePath);                       
                     }                    
