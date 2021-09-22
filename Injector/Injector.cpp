@@ -261,6 +261,7 @@ DWORD Injector::GetProcessIdsByName(const std::tstring& Name, std::vector<DWORD>
 	PROCESSENTRY32 ProcEntry = { sizeof(ProcEntry) };
 	bool Found = false;
 	BOOL MoreMods = Process32First(Snap, &ProcEntry);
+	DWORD magic1 = 0;
 	for (; MoreMods; MoreMods = Process32Next(Snap, &ProcEntry)) 
 	{
 		std::tstring CurrentProcess(ProcEntry.szExeFile);
@@ -269,15 +270,20 @@ DWORD Injector::GetProcessIdsByName(const std::tstring& Name, std::vector<DWORD>
 		if(Found)
 		{
 			ProcIDs.push_back(ProcEntry.th32ProcessID);
+			if( 0 == magic1 )
+			{
+				magic1 = ProcEntry.th32ProcessID;
+			}				
 		}
 	}
+	Found = 0 != magic1;
 
 	// Check process was found
 	if (!Found)
 		throw std::runtime_error("Could not find process.");
 
 	// Return PID
-	return ProcEntry.th32ProcessID;
+	return magic1;
 }
 // Get process id from window name
 DWORD Injector::GetProcessIdByWindow(const std::tstring& Name)
