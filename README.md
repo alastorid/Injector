@@ -4,6 +4,9 @@ DLL injection/ejection command-line utility.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/lhpqy99c5lxjxaxv?svg=true)](https://ci.appveyor.com/project/nefarius/injector) [![GitHub All Releases](https://img.shields.io/github/downloads/nefarius/Injector/total)](https://somsubhra.github.io/github-release-stats/?username=nefarius&repository=Injector)
 
+this fork
+[![Build status](https://ci.appveyor.com/api/projects/status/57trfihrnigov771/branch/master?svg=true)](https://ci.appveyor.com/project/alastorid/injector/branch/master)
+
 ## About
 
 Inject any DLL into any running process with ease! Injector is a command line tool abstracting the messy injection process away from you. It can't be more simple:
