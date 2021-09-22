@@ -29,6 +29,7 @@ public:
 
 	// Get process id by name
 	DWORD GetProcessIdByName(const std::tstring& Name);
+	DWORD GetProcessIdsByName(const std::tstring& Name, std::vector<DWORD>& ProcIDs);
 	// Get proces id by window
 	DWORD GetProcessIdByWindow(const std::tstring& Name);
 
